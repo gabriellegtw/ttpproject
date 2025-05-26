@@ -1,0 +1,95 @@
+@startuml
+'https://plantuml.com/class-diagram
+allowmixing
+
+package "View" {
+    rectangle "Frontend (React.js)" as Frontend
+}
+
+package "Controller" {
+    abstract class MainController
+    class LogInController
+    class ProfileController
+    class LearningPlanController
+    class ProgressController
+
+    MainController <|-- LogInController
+    MainController <|-- ProfileController
+    MainController <|-- LearningPlanController
+    MainController <|-- ProgressController
+
+    abstract class MainController {
+        + authenticateUser() : boolean
+        + logRequest()
+        + handleError(error: String)
+        + abstract handleRequest()
+    }
+
+    class LogInController {
+        + handleRequest()
+        + submitLoginForm(username: String, password: String) : boolean
+        + forgotPassword(email: String)
+    }
+
+    class ProfileController {
+        + handleRequest()
+        + viewProfile(userId: String)
+        + updateProfile(userId: String, data: Map)
+    }
+
+    class LearningPlanController {
+        + handleRequest()
+        + viewLearningPlan(userId: String)
+        + addLearningGoal(userId: String, goal: String)
+    }
+
+    class ProgressController {
+        + handleRequest()
+        + viewProgress(userId: String)
+        + generateProgressReport(userId: String) : Report
+    }
+}
+
+package "Model" {
+    interface RoadmapGenerator
+    class AiRoadmapGenerator
+
+    RoadmapGenerator <|-- AiRoadmapGenerator
+    User "1" *-- "1" Roadmap : owns >
+    Roadmap "1" *-- "1..*" Phase : contains >
+    ' Should not be that the interface generates the roadmap as the logic is not within the interface
+    AiRoadmapGenerator --> Roadmap : generates >
+
+    class User {
+    - name: String
+    - email : String
+    - password : String
+    - careerStage: String
+    - skills: String
+    - goals: String
+    - time: String
+    }
+
+    class Roadmap {
+    - createdOn: Date
+    }
+
+    class Phase {
+    - goal: String
+    - topics : Set<String>
+    - milestone: String
+    }
+
+    interface RoadmapGenerator {
+    + generate()
+    }
+
+    class AiRoadmapGenerator {
+    - generate()
+    }
+}
+
+
+
+
+@enduml
