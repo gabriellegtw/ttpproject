@@ -18,7 +18,7 @@ skills, goals, and available time for learning.
 – Adaptive learning: This tool aims to generate a personalised learning path for
 each user and adjust the content as students progress through their learning.
 
-– Progress Tracking: Tracks the users progress with learning badges and experience levels
+– Progress Tracking: Tracks the users progress
 
 – Performance Analysis: Comprehensive tracking and analysis of user performance to
 identify strengths and areas for improvement.
@@ -219,7 +219,7 @@ percentage of total number of tasks.
 
 Performance analysis: This tab also has a short performance analysis. For instance, if the user 
 struggles with a certain kind of task, this weakness
-would be reflected at the top. For instance, if the user constantly fails to complete
+would be reflected. For instance, if the user constantly fails to complete
 tasks with the skill tag "Javascript", this would be reflected in the performance analysis
 
 ## UML diagram
