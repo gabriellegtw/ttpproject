@@ -7,7 +7,7 @@ Database: PostgreSQL
 # Problem Statement 
 
 Develop an interactive learning tool specifically designed to empower women in tech by
-allowing them to curate their own learning paths based on their individual circumstances.
+allowing them to **curate their own learning paths** based on their individual circumstances.
 The tool will provide users with hands-on learning experiences to accelerate their learning.
 
 # Features
@@ -125,7 +125,24 @@ MSS:
 
 Use case ends.
 
-Use Case: (Nice to have) UC6 - Regeneration of learning plan
+Use Case: UC6 - Tracking of tasks
+
+MSS:
+
+1. After UC4, user can check off tasks they have completed
+2. System tracks that the task status has been updated
+
+Use case ends.
+
+Extensions:
+
+- 1a. User incorrectly checks off the wrong task
+
+  - 1a1. User can uncheck the task
+  
+    Use case resumes from step 2
+
+Use Case: (Nice to have) UC7 - Regeneration of learning plan
 
 MSS:
 
@@ -138,7 +155,7 @@ Use case ends.
 # Implementation
 
 Note: For now, I have included only features that I think are the most necessary.
-I would add more features if time permits!
+I would add more features / improve on existing features if time permits!
 
 ## Overall structure 
 
@@ -153,13 +170,60 @@ skills, goals, and available time for learning. Users would be able to type in t
 stored as Strings
 
 ### `Learning plan` tab
-Initially, I was planning to use 
+Users will be directed to this tab immediately after creating their profile, where their generated learning path
+would be shown.
+
+As the problem statement requires a curated learning path to be created for each user, OpenAI API would be 
+prompted with the users details to create a list of actionables (with deadlines to pace the user). 
+
+Example prompt in the backend:
+
+```
+You are an expert tech career coach.
+
+Given the following user information:
+- Career stage: {{career_stage}}
+- Current skills: {{skills}}
+- Learning goals: {{goals}}
+- Available learning time per week: {{hours}} hours
+
+Generate a personalized learning plan as a list of tasks. Each task should have the following fields:
+- title: a clear, concise name of the task
+- skill: the primary skill or topic this task focuses on
+- start_date: the date the user should start this task (ISO format YYYY-MM-DD)
+- end_date: the date the user should complete this task (ISO format YYYY-MM-DD)
+
+Space out tasks realistically according to the user's available learning time per week.
+
+Return the entire response only in JSON format as a list of task objects, like below,
+and do not include any additional text:
+
+[
+  {
+    "title": "string",
+    "skill": "string",
+    "start_date": "YYYY-MM-DD",
+    "end_date": "YYYY-MM-DD"
+  }
+]
+```
+
+This JSON can be deserialised on the backend into Java objects for persistence and serving to frontend.
+
+After the user confirms her learning path, this tab would be in a format similar to a to-do-list to enable users to
+check off completed tasks.
 
 ### `Progress` tab
-Tracks the users progress with learning badges and experience levels. 
-This tab also has a short performance analysis at the top. For instance, if the user 
-struggles with a certain kind of task (e.g. keeping up with a coursera course), this weakness
-would be reflected at the top
+Progress Tracking: The number of uncompleted tasks will be reflected, as well as the number of completed tasks as a
+percentage of total number of tasks. 
+
+Performance analysis: This tab also has a short performance analysis. For instance, if the user 
+struggles with a certain kind of task, this weakness
+would be reflected at the top. For instance, if the user constantly fails to complete
+tasks with the skill tag "Javascript", this would be reflected in the performance analysis
 
 ## UML diagram
 
+Note: UserRepository is to replace database implementation for now
+
+![UML Diagram](./docs/assets/images/umldiagram.png)
