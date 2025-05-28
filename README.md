@@ -1,7 +1,9 @@
 # Proposed tech stacks
 
 Frontend: React.js
+
 Backend: Spring Boot
+
 Database: PostgreSQL
 
 # Problem Statement 
@@ -27,15 +29,15 @@ identify strengths and areas for improvement.
 
 (For all use cases, the System is the application and the Actor is the user, unless stated otherwise)
 
-Use Case: UC1 - Signing in
+**Use Case: UC1 - Signing in**
 
-Main Success Scenario (MSS):
+*Main Success Scenario (MSS):*
 1. User enters username and password into sign in page
 2. System brings user to their account page
 
 Use case ends.
 
-Extensions:
+*Extensions:*
 
 - 1a. User does not have an existing account
 
@@ -51,9 +53,9 @@ Extensions:
 
       Use case resumes from step 1.
 
-Use Case: UC2 - Signing up (Creating an account)
+**Use Case: UC2 - Signing up (Creating an account)**
 
-MSS:
+*MSS:*
 
 1. User enters username and password into sign in page
 2. User enters password again to confirm password
@@ -61,7 +63,7 @@ MSS:
 
 Use case ends.
 
-Extensions:
+*Extensions:*
 
 - 1a. User keys in a weak password
 
@@ -75,16 +77,16 @@ Extensions:
 
       Use case resumes from step 2.
 
-Use Case: UC3 - Creating a profile 
+**Use Case: UC3 - Creating a profile** 
 
-MSS:
+*MSS:*
 
 1. In profile page, user can key in their career stage, current skills, goals, and available time for learning.
 2. User saves their profile
 
 Use case ends.
 
-Extensions:
+*Extensions:*
 
 - 1a. User keys in a weak password
 
@@ -98,16 +100,16 @@ Extensions:
 
       Use case resumes from step 2.
 
-Use Case: UC4 - Generating a learning path
+**Use Case: UC4 - Generating a learning path**
 
-MSS:
+*MSS:*
 
 1. After UC3, user is shown a page containing their personalised learning plan
 2. User confirms the learning plan
 
 Use case ends.
 
-Extensions:
+*Extensions:*
 
 - 1a. User wants to edit parts of the plan
 
@@ -115,9 +117,9 @@ Extensions:
 
       Use case resumes from step 1.
 
-Use Case: UC5 - Progress / Performance Analysis
+**Use Case: UC5 - Progress / Performance Analysis**
 
-MSS:
+*MSS:*
 
 1. User navigates to `Progress` tab
 2. User is able to view their strengths and weaknesses
@@ -125,16 +127,16 @@ MSS:
 
 Use case ends.
 
-Use Case: UC6 - Tracking of tasks
+**Use Case: UC6 - Tracking of tasks**
 
-MSS:
+*MSS:*
 
 1. After UC4, user can check off tasks they have completed
 2. System tracks that the task status has been updated
 
 Use case ends.
 
-Extensions:
+*Extensions:*
 
 - 1a. User incorrectly checks off the wrong task
 
@@ -142,9 +144,9 @@ Extensions:
   
     Use case resumes from step 2
 
-Use Case: (Nice to have) UC7 - Regeneration of learning plan
+**Use Case: (Nice to have) UC7 - Regeneration of learning plan**
 
-MSS:
+*MSS:*
 
 1. User navigates to `Profile` tab
 2. User is able to edit their goals accordingly
