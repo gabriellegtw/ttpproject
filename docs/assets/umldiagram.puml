@@ -1,0 +1,141 @@
+@startuml
+
+allowmixing
+
+package "View" {
+    rectangle "Frontend (React.js)" as Frontend
+}
+
+package "Controller" {
+    abstract class MainController
+    class LogInController
+    class ProfileController
+    class LearningPlanController
+    class ProgressController
+
+    MainController <|-- LogInController
+    MainController <|-- SignUpController
+    MainController <|-- ProfileController
+    MainController <|-- LearningPlanController
+    MainController <|-- ProgressController
+
+    abstract class MainController {
+        + authenticateUser() : boolean
+        + handleError(error: String)
+        + abstract handleRequest()
+    }
+
+    class LogInController {
+        + handleRequest()
+        + submitLoginForm(username: String, password: String) : boolean
+        + forgotPassword(email: String)
+    }
+
+    class SignUpController {
+        + handleRequest()
+        + submitSignupForm(username: String, password: String) : boolean
+    }
+
+    class ProfileController {
+        + handleRequest()
+        + viewProfile(userId: String)
+        + updateProfile(userId: String, data: Map)
+    }
+
+    class LearningPlanController {
+        + handleRequest()
+        + viewLearningPlan(userId: String)
+        + updateLearningGoal(userId: String, goal: String)
+    }
+
+    class ProgressController {
+        + handleRequest()
+        + viewProgress(userId: String)
+        + viewPerformanceAnalysis(userId: String)
+    }
+
+}
+
+package "Model" {
+    interface RoadmapGenerator
+    class AiRoadmapGenerator
+
+    RoadmapGenerator <|-- AiRoadmapGenerator
+    User "1" *-- "1" Roadmap : owns >
+    User "1" *-- "1" ProgressTracker
+    User "1" *-- "1" PerformanceAnalysis
+    Roadmap "1" *-- "1..*" Task : contains >
+    ' Should not be that the interface generates the roadmap as the logic is not within the interface
+    UserRepository --> User : stores >
+
+    class User {
+    - name: String
+    - email : String
+    - password : String
+    - careerStage: String
+    - skills: String
+    - goals: String
+    - time: String
+    }
+
+    class Roadmap {
+    - createdOn: Date
+    + getTasks() : List<Task>
+    }
+
+    class Task {
+    - title: String
+    - skill : String
+    - startDate: Date
+    - endDate: Date
+    - isCompleted: boolean
+    + getCompletionStatus(): boolean
+    + getEndDate(): Date
+    }
+
+    class ProgressTracker {
+    - roadmap : Roadmap
+    + getCompletionPercentage(): int
+    }
+
+    class PerformanceAnalysis {
+    - roadmap: Roadmap
+    + getStrongestSkill(): String
+    + getWeakestSkill(): String
+    }
+
+    interface RoadmapGenerator {
+    + generate() : Roadmap
+    }
+
+    class AiRoadmapGenerator {
+    + generate() : Roadmap
+    }
+
+    class UserRepository {
+        - userDb : HashMap<String, User>
+        + addUser()
+        + updateUser(user: User)
+        + getUserById(userId: String)
+    }
+}
+
+ProfileController ..> UserRepository : uses
+ProfileController ..> User : manipulates
+
+LearningPlanController ..> Roadmap : uses
+LearningPlanController ..> UserRepository : uses
+
+ProgressController ..> ProgressTracker : uses
+ProgressController ..> PerformanceAnalysis : uses
+
+LogInController ..> UserRepository : uses
+SignUpController ..> UserRepository : uses
+
+ProfileController ..> Frontend : updates/views
+LearningPlanController ..> Frontend : updates/views
+ProgressController ..> Frontend : updates/views
+LogInController ..> Frontend : updates/views
+SignUpController ..> Frontend : updates/views
+
+@enduml
