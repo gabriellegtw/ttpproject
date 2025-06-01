@@ -1,0 +1,65 @@
+.progress-container {
+    width: 100%;
+    max-width: 100%;
+    background-color: #c6edb5;
+    padding: 16px;
+    margin: 12px auto;
+    border-radius: 8px;
+    box-sizing: border-box;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+}
+
+.progress-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+.progress-number {
+    font-weight: bold;
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 4px;
+}
+
+.progress-label {
+    font-size: 1rem;
+    color: #666;
+    text-align: center;
+}
+
+.skill-container {
+    display: flex;
+    justify-content: space-between;  /* space out items evenly */
+    background-color: #fbf3cf;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-top: 20px;  /* spacing from other containers */
+}
+
+.skill-item {
+    display: flex;
+    flex-direction: column;  /* stack label on top of value */
+    align-items: center;
+    flex: 1;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+.skill-label {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 6px;
+}
+
+.skill-value {
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: #333;
+}

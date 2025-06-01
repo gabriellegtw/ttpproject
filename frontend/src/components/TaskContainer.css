@@ -1,0 +1,43 @@
+.task-container {
+    width: 100%;
+    max-width: 100%;
+    background-color: #f0f0f0;
+    padding: 16px;
+    margin: 12px auto;
+    border-radius: 8px;
+    box-sizing: border-box;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    /*This arranges it in a row*/
+    display: flex;
+    /*This arranges it vertically*/
+    align-items: center;
+}
+
+.task-container p {
+    margin: 8px 0;
+    color: #333; /* darker text for visibility */
+}
+
+.task-title {
+    font-weight: bold;
+    font-size: 40px;
+    margin-bottom: 4px;
+}
+
+.task-info {
+    display: block;
+    margin-left: 10%;
+    text-align: left;
+}
+
+.additional-info{
+    font-size: 20px;
+}
+
+.checkbox {
+    width: 5em;
+    height: 5em;
+    vertical-align: middle; /* helps align with text */
+    margin-right: 0.5em;      /* spacing between checkbox and text */
+    cursor: pointer;        /* nicer UX */
+}
