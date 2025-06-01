@@ -1,4 +1,4 @@
-package com.example.ttpproject;
+package com.example.ttpproject.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class HomeController {
     // RequestMapping tells Spring which URL path it will respond to
-    // E.g., if the argument is "/read" it the http path will need to have it at the end
-    @RequestMapping("/")
+    // E.g., if the argument is "/read",it the http path will need to have it at the end
+    @RequestMapping("/test")
     public String index() {
         // index.html is the view file
         return "index.html";
