@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 import "./ProfileCreation.css";
 
@@ -8,6 +9,21 @@ function ProfileCreation() {
     const [goals, setGoals] = useState("");
     // This is the available time the user has to study per week
     const [availableTime, setAvailableTime] = useState("");
+
+    const handleGenerate = async (e) => {
+        // Prevent page from refreshing when you press the button
+        e.preventDefault();
+
+        const payload = {
+            userDetails: `current career stage: ${careerStage}. Goal: ${goals}. 
+            Current Skills: ${skills}. Available time to study per week: ${availableTime}`
+        }
+
+        axios.post('http://localhost:8000/profile/generate', payload)
+            .then(response => {
+                console.log("response.data: " + JSON.stringify(response.data.message, null, 2))
+        }).catch(error => console.log("Error: " + error));
+    }
 
     return (
         <div>
@@ -58,7 +74,8 @@ function ProfileCreation() {
                     />
                 </label>
 
-                <button>
+                <button
+                onClick={handleGenerate}>
                     Generate my learning plan!
                 </button>
             </form>
