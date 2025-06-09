@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./ProfileCreation.css";
 
 function ProfileCreation() {
@@ -9,9 +10,12 @@ function ProfileCreation() {
     const [goals, setGoals] = useState("");
     // This is the available time the user has to study per week
     const [availableTime, setAvailableTime] = useState("");
+    const [hasLearningPlan, setHasLearningPlan] = useState(false);
+
+    const navigate = useNavigate();
 
     const handleGenerate = async (e) => {
-        // Prevent page from refreshing when you press the button
+        // Prevent the page from refreshing when you press the button
         e.preventDefault();
 
         const payload = {
@@ -21,8 +25,15 @@ function ProfileCreation() {
 
         axios.post('http://localhost:8000/profile/generate', payload)
             .then(response => {
-                console.log("response.data: " + JSON.stringify(response.data.message, null, 2))
+                console.log("Response: ", response.data.message)
+                localStorage.setItem("curr", response.data.message);
+                setHasLearningPlan(true)
         }).catch(error => console.log("Error: " + error));
+    }
+
+    const handleNavigation = (e) => {
+        e.preventDefault();
+        navigate("/path");
     }
 
     return (
@@ -78,6 +89,10 @@ function ProfileCreation() {
                 onClick={handleGenerate}>
                     Generate my learning plan!
                 </button>
+                { hasLearningPlan && <button
+                    onClick={handleNavigation}>
+                    Navigate to your learning plan →
+                </button> }
             </form>
         </div>
     )

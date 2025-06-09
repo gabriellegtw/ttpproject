@@ -8,16 +8,18 @@ public class User {
     private String name;
     private String email;
     private String password;
-    private final String careerStage;
-    private final String skills;
-    private final String goals;
-    private final String time;
+    private String careerStage;
+    private String skills;
+    private String goals;
+    private String time;
+    private Roadmap roadmap;
 
     public User(String careerStage, String skills, String goals, String time) {
         this.careerStage = careerStage;
         this.skills = skills;
         this.goals = goals;
         this.time = time;
+        this.roadmap = null;
     }
 
     public String getCareerStage() {
@@ -34,5 +36,9 @@ public class User {
 
     public String getTime() {
         return time;
+    }
+
+    public void setRoadmap(Roadmap roadmap) {
+        this.roadmap = roadmap;
     }
 }
