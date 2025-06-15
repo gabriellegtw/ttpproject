@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import {useEffect, useState} from "react";
 import TaskContainer from "../components/TaskContainer";
 import axios from "axios";
@@ -5,6 +6,7 @@ import axios from "axios";
 function PathGeneration() {
     // This should be set to be an array as we need to map it to the components
     const [learningPath, setLearningPath] = useState([]);
+    const navigate = useNavigate();
 
     const handleToggle = (title) => {
 
@@ -30,6 +32,11 @@ function PathGeneration() {
 
     }
 
+    const handleNavigation = (e) => {
+        e.preventDefault();
+        navigate("/progress");
+    }
+
     // Setting learningPath to be a dependency would cause an infinite loop as the function sets learningPath
     useEffect(() => {
         let stringResult = localStorage.getItem("curr");
@@ -48,6 +55,10 @@ function PathGeneration() {
     return (
         <div>
             <h1>Your Learning Path</h1>
+            <button
+                onClick={handleNavigation}>
+                Navigate to your Progress Page →
+            </button>
             {/* index is an optional parameter */}
             {/*This is mapping each of the JSON to the TaskContainer component*/}
             {learningPath.map((task, index) =>
