@@ -39,17 +39,22 @@ function PathGeneration() {
 
     // Setting learningPath to be a dependency would cause an infinite loop as the function sets learningPath
     useEffect(() => {
-        let stringResult = localStorage.getItem("curr");
-        let parsed = JSON.parse(stringResult);
+        axios.get('http://localhost:8000/roadmap/roadmap-json')
+            .then(response => {
+                console.log("Roadmap fetched")
+                let parsed = response.data.tasks;
 
-        // Normalize to boolean
-        if (parsed && Array.isArray(parsed)) {
-            parsed = parsed.map(task => ({
-                ...task,
-                isCompleted: task.isCompleted === true || task.isCompleted === "true" // convert string "true" to boolean true
-            }));
-        }
-        setLearningPath(parsed);
+                // Change the String to boolean in isCompleted
+                if (parsed && Array.isArray(parsed)) {
+                    parsed = parsed.map(task => ({
+                        ...task,
+                        isCompleted: task.isCompleted === true || task.isCompleted === "true" // convert string "true" to boolean true
+                    }));
+                }
+                setLearningPath(parsed);
+            }).catch(error => console.log("Error: " + error));
+        // let stringResult = localStorage.getItem("curr");
+
     }, [])
 
     return (

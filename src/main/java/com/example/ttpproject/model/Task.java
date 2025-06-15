@@ -40,6 +40,7 @@ public class Task {
 
     // To serialise something (i.e changing Java object to JSON or some other format)
     // You need to add getter methods because Jackson needs to be able to access the fields
+    // The names of the getter method is important in denoting the name of the fields in json
     public String getTitle() {
         return title;
     }
@@ -52,7 +53,7 @@ public class Task {
         return endDate;
     }
 
-    public boolean isCompleted() {return isCompleted;}
+    public boolean getIsCompleted() {return isCompleted;}
 
     public void toggleIsCompleted() {isCompleted = !isCompleted;}
 }

@@ -1,6 +1,7 @@
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import "./ProgressPage.css";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function ProgressPage() {
     const [completedNumber, setCompletedNumber] = useState("");
@@ -14,6 +15,18 @@ function ProgressPage() {
         e.preventDefault();
         navigate("/path");
     }
+
+    useEffect(() => {
+        axios.get('http://localhost:8000/progress/get-progress')
+            .then(response => {
+                console.log("Response from progress: ", response.data)
+                setCompletedNumber(response.data.completedTasks);
+                setUncompletedNumber(response.data.uncompletedTasks);
+                setCompletionPercentage(response.data.completionPercentage)
+                setStrongestSkill(response.data.strongestSkill)
+                setWeakestSkill(response.data.weakestSkill)
+            }).catch(error => console.log("Error: " + error));
+    }, []);
 
     return (
         <div>

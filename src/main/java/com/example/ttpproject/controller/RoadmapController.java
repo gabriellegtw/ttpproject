@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.ttpproject.model.Roadmap;
 import com.example.ttpproject.model.Task;
 import com.example.ttpproject.service.RoadmapService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -41,7 +40,9 @@ public class RoadmapController {
 
     // This is for debugging purposes
     @GetMapping("/roadmap-json")
-    public ResponseEntity<String> printRoadmapAsJson() {
+    // ResponseENtity is a generic class to represent the HTTP response. You can set custom HTTP status and set headers
+    // Do not use ResponseEntity<String> as it would be considered a plain string and not a JSON object
+    public ResponseEntity<Object> printRoadmapAsJson() {
         ObjectMapper mapper = new ObjectMapper();
         try {
             String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(roadmapService.getRoadmap());

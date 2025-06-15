@@ -21,7 +21,7 @@ public class ProgressService {
 
         // Collections can be streamed
         return rm.getTasks().stream()
-                .filter(task -> task.isCompleted())
+                .filter(Task::getIsCompleted)
                 .count();
     }
 
@@ -30,7 +30,7 @@ public class ProgressService {
 
         // Collections can be streamed
         return rm.getTasks().stream()
-                .filter(task -> !task.isCompleted())
+                .filter(task -> !task.getIsCompleted())
                 .count();
     }
 
@@ -38,14 +38,15 @@ public class ProgressService {
         Roadmap rm = roadmapService.getRoadmap();
         long total = rm.getTasks().size();
 
-        return (this.getNumberOfCompleted() / total) * 100;
+        double result = ((double) this.getNumberOfCompleted() / total) * 100;
+        return Math.round(result);
     }
 
     public String getStrongestSkill() {
         Roadmap rm = roadmapService.getRoadmap();
 
         return rm.getTasks().stream()
-                .filter(task -> task.isCompleted())
+                .filter(Task::getIsCompleted)
                 // This collects the tasks into a Map with their skill and count
                 // Map itself does not have a stream method
                 .collect(Collectors.groupingBy(
@@ -66,7 +67,7 @@ public class ProgressService {
         Roadmap rm = roadmapService.getRoadmap();
 
         return rm.getTasks().stream()
-                .filter(task -> !task.isCompleted())
+                .filter(task -> !task.getIsCompleted())
                 .collect(Collectors.groupingBy(
                         Task::getSkill,
                         Collectors.counting()
