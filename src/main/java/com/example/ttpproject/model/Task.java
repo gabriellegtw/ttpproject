@@ -38,12 +38,6 @@ public class Task {
         this.isCompleted = isCompleted;
     }
 
-//    public Task(String title, String skill, Date endDate) {
-//        this.title = title;
-//        this.skill = skill;
-//        this.endDate = endDate;
-//    }
-
     // To serialise something (i.e changing Java object to JSON or some other format)
     // You need to add getter methods because Jackson needs to be able to access the fields
     public String getTitle() {

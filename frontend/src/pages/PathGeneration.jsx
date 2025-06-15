@@ -1,14 +1,50 @@
 import {useEffect, useState} from "react";
 import TaskContainer from "../components/TaskContainer";
+import axios from "axios";
 
 function PathGeneration() {
     // This should be set to be an array as we need to map it to the components
     const [learningPath, setLearningPath] = useState([]);
 
+    const handleToggle = (title) => {
+
+        const taskTitle = {
+            title: title
+        }
+
+        axios.post('http://localhost:8000/roadmap/toggle-task', taskTitle)
+            .then(response => {
+                console.log("Response for toggle: ", response.data);
+
+                setLearningPath(prev =>
+                    prev.map(task =>
+                        task.title === title
+                            ? { ...task, isCompleted: !task.isCompleted }
+                            : task
+                    )
+                );
+
+                console.log("Current learningPath:", learningPath);
+
+            }).catch(error => console.log("Error: " + error));
+
+    }
+
+    // Setting learningPath to be a dependency would cause an infinite loop as the function sets learningPath
     useEffect(() => {
         let stringResult = localStorage.getItem("curr");
-        setLearningPath(JSON.parse(stringResult));
+        let parsed = JSON.parse(stringResult);
+
+        // Normalize to boolean
+        if (parsed && Array.isArray(parsed)) {
+            parsed = parsed.map(task => ({
+                ...task,
+                isCompleted: task.isCompleted === true || task.isCompleted === "true" // convert string "true" to boolean true
+            }));
+        }
+        setLearningPath(parsed);
     }, [])
+
     return (
         <div>
             <h1>Your Learning Path</h1>
@@ -21,6 +57,12 @@ function PathGeneration() {
                     skill={task.skill}
                     endDate={task.endDate}
                     isCompleted={task.isCompleted}
+                    // Without the arrow function, the function would immediately execute upon render
+                    // In that case, the return value of the function is assigned to handleToggle
+                    // Do not in to pass in argument task.title as it is defined in this scope
+                    // You would only pass in something if it is not in scope, like for instance, an event object
+                    // i.e., a special object created by the browser when something happens in the UI
+                    handleToggle={() => handleToggle(task.title)}
                 />
             )}
         </div>
