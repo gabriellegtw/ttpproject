@@ -1,11 +1,14 @@
-import { useNavigate } from "react-router-dom";
 import "./TaskContainer.css";
 
-function TaskContainer( { title, skill, endDate } ) {
+function TaskContainer( { title, skill, endDate, isCompleted } ) {
+    const handleChange = (e) => {
+        // nothing
+    }
     return (
         <div className="task-container">
             <input className="checkbox"
                 type="checkbox"
+                checked={isCompleted}
             />
             <div className="task-info">
                 <p className="task-title">

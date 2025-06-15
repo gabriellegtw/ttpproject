@@ -4,6 +4,7 @@ import com.example.ttpproject.model.Roadmap;
 import com.example.ttpproject.model.Task;
 import com.example.ttpproject.model.User;
 import com.example.ttpproject.service.GenerationService;
+import com.example.ttpproject.service.RoadmapService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,13 +25,15 @@ public class ProfileController {
 
     // Dependency injection
     private final GenerationService generationService;
+    private final RoadmapService roadmapService;
 
     // There would be an @Autowired here under the hood
     // @Autowired marks a constructor, field, or setter method
     // to indicate Spring should automatically inject a dependency
     // Have to add @Qualifier here if there are more than one class that uses the GenerationService interface
-    public ProfileController(GenerationService generationService) {
+    public ProfileController(GenerationService generationService, RoadmapService roadmapService) {
         this.generationService = generationService;
+        this.roadmapService = roadmapService;
     }
 
     // PostMapping is a less verbose way of writing @RequestMapping(value = "/generate", method = RequestMethod.POST)
@@ -51,6 +54,7 @@ public class ProfileController {
                 - title: a clear, concise name of the task
                 - skill: the primary skill or topic this task focuses on (Keep it to one per task)
                 - endDate: the date the user should complete this task (ISO format YYYY-MM-DD)
+                - isCompleted: false (this is a boolean that will always be set to false)
                 
                 For the skill, please ensure that you cap it to a few different skills across all tasks
                 so that users can easily track how well they are keeping up with a specific skill.
@@ -64,7 +68,8 @@ public class ProfileController {
                   {
                     "title": "string",
                     "skill": "string",
-                    "endDate": "YYYY-MM-DD"
+                    "endDate": "YYYY-MM-DD",
+                    "isCompleted": "false"
                   }
                 ]
                 """, today, userDetails);
@@ -86,8 +91,12 @@ public class ProfileController {
         }
 
         // TODO: When database is connected, actual details need to be added
+        Roadmap generatedRoadmap = new Roadmap(tasks);
         User currentUser = new User(null, null, null, null);
-        currentUser.setRoadmap(new Roadmap(tasks));
+        currentUser.setRoadmap(generatedRoadmap);
+
+        // Share this roadmap with the rest of the app
+        roadmapService.setRoadmap(generatedRoadmap);
 
         // Wrap in ChatResponse so that it returns in a nice JSON format to the frontend
         return new ChatResponse(cleanJson);

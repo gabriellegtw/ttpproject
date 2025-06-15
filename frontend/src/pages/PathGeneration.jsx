@@ -13,12 +13,14 @@ function PathGeneration() {
         <div>
             <h1>Your Learning Path</h1>
             {/* index is an optional parameter */}
+            {/*This is mapping each of the JSON to the TaskContainer component*/}
             {learningPath.map((task, index) =>
                 <TaskContainer
                     key={index}
                     title={task.title}
                     skill={task.skill}
                     endDate={task.endDate}
+                    isCompleted={task.isCompleted}
                 />
             )}
         </div>
