@@ -1,6 +1,7 @@
 package com.example.ttpproject.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Date;
@@ -18,6 +19,7 @@ public class Task {
     private Long id; // primary key for Task entity
     private String title;
     private String skill;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date endDate;
     private boolean isCompleted;
 
