@@ -40,7 +40,7 @@ public class RoadmapController {
 
     // This is for debugging purposes
     @GetMapping("/roadmap-json")
-    // ResponseENtity is a generic class to represent the HTTP response. You can set custom HTTP status and set headers
+    // ResponseEntity is a generic class to represent the HTTP response. You can set custom HTTP status and set headers
     // Do not use ResponseEntity<String> as it would be considered a plain string and not a JSON object
     public ResponseEntity<Object> printRoadmapAsJson() {
         ObjectMapper mapper = new ObjectMapper();
