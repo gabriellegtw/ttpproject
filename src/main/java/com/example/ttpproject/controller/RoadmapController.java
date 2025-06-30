@@ -46,7 +46,7 @@ public class RoadmapController {
         ObjectMapper mapper = new ObjectMapper();
         try {
             String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(roadmapService.getRoadmap());
-            System.out.println(json); // Also print to console
+            System.out.println(json);
             return ResponseEntity.ok(json);
         } catch (JsonProcessingException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to convert roadmap to JSON");
