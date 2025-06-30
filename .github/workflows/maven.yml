@@ -8,8 +8,21 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: ttpproject
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
       - name: Checkout code
@@ -21,8 +34,9 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Build with Maven
-        run: mvn clean install
-
-      - name: Run tests
-        run: mvn test
+      - name: Build and test
+        env:
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/ttpproject
+          SPRING_DATASOURCE_USERNAME: postgres
+          SPRING_DATASOURCE_PASSWORD: 1234567
+        run: mvn clean test
