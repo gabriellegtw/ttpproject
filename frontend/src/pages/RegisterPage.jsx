@@ -67,7 +67,7 @@ function RegisterPage() {
                     />
                 </label>
 
-                <button type="submit">Submit</button>
+                <button type="submit" onClick={handleSubmit}>Submit</button>
             </form>
         </div>
     )
