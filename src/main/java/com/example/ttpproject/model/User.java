@@ -30,12 +30,13 @@ public class User {
 
     public User() {}
 
-    public User(String careerStage, String skills, String goals, String time) {
+    public User(String email, String password, String careerStage, String skills, String goals, String time) {
+        this.email = email;
+        this.password = password;
         this.careerStage = careerStage;
         this.skills = skills;
         this.goals = goals;
         this.time = time;
-        this.roadmap = null;
     }
 
     public Long getId() {

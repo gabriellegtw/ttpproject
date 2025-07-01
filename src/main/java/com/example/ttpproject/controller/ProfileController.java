@@ -92,7 +92,7 @@ public class ProfileController {
 
         // TODO: When database is connected, actual details need to be added
         Roadmap generatedRoadmap = new Roadmap(tasks);
-        User currentUser = new User(null, null, null, null);
+        User currentUser = new User(null, null, null, null, null, null);
         currentUser.setRoadmap(generatedRoadmap);
 
         // Share this roadmap with the rest of the app
