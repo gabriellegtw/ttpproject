@@ -3,11 +3,15 @@ import com.example.ttpproject.model.ChatResponse;
 import com.example.ttpproject.model.Roadmap;
 import com.example.ttpproject.model.Task;
 import com.example.ttpproject.model.User;
+import com.example.ttpproject.repository.UserRepository;
 import com.example.ttpproject.service.GenerationService;
 import com.example.ttpproject.service.RoadmapService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,20 +30,32 @@ public class ProfileController {
     // Dependency injection
     private final GenerationService generationService;
     private final RoadmapService roadmapService;
+    private final UserRepository userRepository;
 
     // There would be an @Autowired here under the hood
     // @Autowired marks a constructor, field, or setter method
     // to indicate Spring should automatically inject a dependency
     // Have to add @Qualifier here if there are more than one class that uses the GenerationService interface
-    public ProfileController(GenerationService generationService, RoadmapService roadmapService) {
+    public ProfileController(GenerationService generationService, RoadmapService roadmapService, UserRepository userRepository) {
         this.generationService = generationService;
         this.roadmapService = roadmapService;
+        this.userRepository = userRepository;
     }
 
     // PostMapping is a less verbose way of writing @RequestMapping(value = "/generate", method = RequestMethod.POST)
-    // TODO: In future, we need to save the details to DB
     @PostMapping("/generate")
-    public ChatResponse generate(@RequestBody String userDetails) {
+    public ChatResponse generate(@RequestBody String userDetailsJson,
+                                 @AuthenticationPrincipal UserDetails userDetails) {
+
+        System.out.println("userDetails = " + userDetails);
+
+        // Get logged-in user's email
+        String email = userDetails.getUsername();
+
+        // Load user from DB
+        User currentUser = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
         // @ RequestBody tells Spring Boot to get the argument from the JSON sent by the client
         LocalDate today = LocalDate.now();
 
@@ -72,7 +88,7 @@ public class ProfileController {
                     "isCompleted": "false"
                   }
                 ]
-                """, today, userDetails);
+                """, today, userDetailsJson);
         String rawResponse = this.generationService.generatePath(fullPrompt);
 
         // This is to clean up the answer that the API returned
@@ -90,10 +106,12 @@ public class ProfileController {
             throw new RuntimeException(e);
         }
 
-        // TODO: When database is connected, actual details need to be added
+
         Roadmap generatedRoadmap = new Roadmap(tasks);
-        User currentUser = new User(null, null, null, null, null, null);
+
         currentUser.setRoadmap(generatedRoadmap);
+
+        userRepository.save(currentUser);
 
         // Share this roadmap with the rest of the app
         roadmapService.setRoadmap(generatedRoadmap);

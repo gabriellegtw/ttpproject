@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import "./LoginPage.css";
 
 function LoginPage() {
@@ -16,15 +16,11 @@ function LoginPage() {
                 email,
                 password,
             });
-            alert(res.data);
+            alert("Login Successfully");
+            navigate('/profile');
         } catch (err) {
             alert("Login failed");
         }
-    }
-
-    const handleNavigation = (e) => {
-        e.preventDefault();
-        navigate("/path");
     }
 
     return (
@@ -51,6 +47,12 @@ function LoginPage() {
 
                 <button type="submit" onClick={handleSubmit}>Submit</button>
             </form>
+            <p style={{ marginTop: '1rem' }}>
+                <span style={{ color: 'black' }}>Don't have an account? </span>
+                <Link to="/register" style={{ color: 'blue', textDecoration: 'underline' }}>
+                    Register
+                </Link>
+            </p>
         </div>
     )
 }

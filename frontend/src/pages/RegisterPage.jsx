@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import "./LoginPage.css";
 
 function RegisterPage() {
@@ -29,11 +29,6 @@ function RegisterPage() {
                 alert(err.response.data)
             }
         }
-    }
-
-    const handleNavigation = (e) => {
-        e.preventDefault();
-        navigate("/path");
     }
 
     return (
@@ -69,6 +64,13 @@ function RegisterPage() {
 
                 <button type="submit" onClick={handleSubmit}>Submit</button>
             </form>
+
+            <p style={{ marginTop: '1rem' }}>
+                <span style={{ color: 'black' }}>Already have an account? </span>
+                <Link to="/" style={{ color: 'blue', textDecoration: 'underline' }}>
+                    Login
+                </Link>
+            </p>
         </div>
     )
 }

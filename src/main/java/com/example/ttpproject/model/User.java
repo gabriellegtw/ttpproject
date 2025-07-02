@@ -1,4 +1,5 @@
 package com.example.ttpproject.model;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,7 +26,7 @@ public class User {
     private String goals;
     private String time;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Roadmap roadmap;
 
     public User() {}
