@@ -1,7 +1,9 @@
 package com.example.ttpproject.service;
 
 import com.example.ttpproject.dto.AuthDTO;
+import com.example.ttpproject.model.LoginResponse;
 import com.example.ttpproject.model.User;
+import com.example.ttpproject.util.JwtUtil;
 import com.example.ttpproject.repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
@@ -13,14 +15,18 @@ public class AuthService {
 
     private final UserRepository userRepository;
 
-    public AuthService(UserRepository userRepository) {
+    private final JwtUtil jwtUtil;
+
+    public AuthService(UserRepository userRepository, JwtUtil jwtUtil) {
         this.userRepository = userRepository;
+        this.jwtUtil = jwtUtil;
     }
 
-    public Optional<User> login(String email, String rawPassword) {
+    public Optional<LoginResponse> login(String email, String rawPassword) {
         Optional<User> user = userRepository.findByEmail(email);
         if (user.isPresent() && BCrypt.checkpw(rawPassword, user.get().getPassword())) {
-            return user;
+            String jwt = jwtUtil.generateToken(email);
+            return Optional.of(new LoginResponse(jwt));
         }
         return Optional.empty();
     }
