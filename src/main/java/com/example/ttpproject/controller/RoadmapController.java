@@ -5,6 +5,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,9 +32,11 @@ public class RoadmapController {
     public RoadmapController(RoadmapService roadmapService) {this.roadmapService = roadmapService;}
 
     @PostMapping("/toggle-task")
-    public ResponseEntity<String> toggleTask(@RequestBody Map<String, String> body) {
+    public ResponseEntity<String> toggleTask(@RequestBody Map<String, String> body,
+                                             @AuthenticationPrincipal UserDetails userDetails) {
         String title = body.get("title");
-        Task task = roadmapService.toggleIsCompleted(title);
+        String email = userDetails.getUsername();
+        Task task = roadmapService.toggleIsCompleted(email, title);
         return task != null
                 ? ResponseEntity.ok("Toggled task: " + title)
                 : ResponseEntity.badRequest().body("Task not found");

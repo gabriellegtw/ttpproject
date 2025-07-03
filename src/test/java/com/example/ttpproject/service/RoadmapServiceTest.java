@@ -40,7 +40,7 @@ class RoadmapServiceTest {
         Roadmap roadmap = new Roadmap(new ArrayList<>(Arrays.asList(task)));
         roadmapService.setRoadmap(roadmap);
 
-        Task foundTask = roadmapService.toggleIsCompleted("SQL");
+        Task foundTask = roadmapService.toggleIsCompleted("test", "SQL");
         assertTrue(foundTask.getIsCompleted());
     }
 
