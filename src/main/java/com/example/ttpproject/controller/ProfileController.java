@@ -44,17 +44,7 @@ public class ProfileController {
 
     // PostMapping is a less verbose way of writing @RequestMapping(value = "/generate", method = RequestMethod.POST)
     @PostMapping("/generate")
-    public ChatResponse generate(@RequestBody String userDetailsJson,
-                                 @AuthenticationPrincipal UserDetails userDetails) {
-
-        System.out.println("userDetails = " + userDetails);
-
-        // Get logged-in user's email
-        String email = userDetails.getUsername();
-
-        // Load user from DB
-        User currentUser = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+    public ChatResponse generate(@RequestBody String userDetailsJson) {
 
         // @ RequestBody tells Spring Boot to get the argument from the JSON sent by the client
         LocalDate today = LocalDate.now();
@@ -106,12 +96,10 @@ public class ProfileController {
             throw new RuntimeException(e);
         }
 
-
+        // TODO: When database is connected, actual details need to be added
         Roadmap generatedRoadmap = new Roadmap(tasks);
-
+        User currentUser = new User(null, null, null, null, null, null);
         currentUser.setRoadmap(generatedRoadmap);
-
-        userRepository.save(currentUser);
 
         // Share this roadmap with the rest of the app
         roadmapService.setRoadmap(generatedRoadmap);
